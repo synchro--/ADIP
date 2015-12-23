@@ -7,4 +7,5 @@ The goals are:
 <li>Utilize the local minimum of the latter as a seed for a morphological watershed segmentation</li>
 </ul>
 
-Under construction...
+<h3>Results</h3>
+We're working on it! 
