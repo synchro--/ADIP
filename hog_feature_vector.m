@@ -13,8 +13,6 @@ function [feature] = hog_feature_vector(im)
 % >>> im = imread('cameraman.tif');
 % >>> hog = hog_feature_vector (im);
 
-
-
 % Convert RGB image to grayscale
 if size(im,3)==3
     im=rgb2gray(im);
@@ -50,10 +48,10 @@ magnitude(isnan(magnitude))=0;
 figure
 subplot(1,2,1)
 imshow(uint8(magnitude));
-title('magnitude')
+title('gradient magnitude')
 subplot(1,2,2)
 imshow(uint8(angle));
-title('angle')
+title('gradient angle')
 
 
 feature=[]; %initialized the feature vector
@@ -79,7 +77,7 @@ for i = 0: rows/8 - 2
                 %Iterations for pixels in one cell
                 for p=1:8
                     for q=1:8
-%                       
+
                         alpha= angleA(p,q);
                         
                         % Binning Process (Bi-Linear Interpolation)

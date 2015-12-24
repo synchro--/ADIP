@@ -1,6 +1,19 @@
-I1 = imread('C:\Users\Maria\Documents\GitHub\ADIP\images\101087_larger.jpg');
-[hog1, visualization] = extractHOGFeatures(I1,'CellSize',[32 32]);
+
+clc
+clear all
+close all
+
+image = 'C:\Users\Maria\Documents\GitHub\ADIP\images\101087_larger.jpg';
+im= imread(image);
+
+% Option 1
+% feature = hog_feature_vector(im);
+
+
+% Option 2
+[hog1, visualization] = extractHOGFeatures(im,'CellSize',[16 16]);
 subplot(1,2,1);
-imshow(I1);
+imshow(im);
 subplot(1,2,2);
-plot(visualization,XY);
+plot(visualization);
+
