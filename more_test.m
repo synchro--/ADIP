@@ -1,8 +1,11 @@
 
-
 %Initial conditions
-image = 'C:\Users\Maria\Documents\GitHub\ADIP\images\101087_larger.jpg';
-im= imread(image);
+%in this way is independent from the OS and the current file system 
+%pwd specify the current directory and filesep is '\' on windows and '/' on Linux 
+root_path = pwd;
+path_im=[root_path filesep 'ADIP' filesep 'images' filesep]; 
+image = 'im_larger.jpg';
+im=imread([path_im image]);
 num_bins=20;
 neighbors=5; % Number of neighbouring pixels
 
@@ -21,7 +24,7 @@ gradient_dens=zeros(rows,cols);
 % Histograms of the central part (without taking into account the 5 pixels
 % borders)
 
-for r=5:rows-5 
+for r=5:rows-5
     for c=5:cols-5
         fprintf('raw= %d',r)
         fprintf('col= %d  \n',c)
@@ -39,9 +42,9 @@ for r=5:rows-5
     end
 end
 
-gauss=fspecial('gaussian',8,1); %% Initialized a gaussian filter with sigma=0.5 * block width.    
+gauss=fspecial('gaussian',8,1); %% Initialized a gaussian filter with sigma=0.5 * block width.
 
-% % Remove redundant pixels in an image. 
+% % Remove redundant pixels in an image.
 gradient_dens(gradient_dens<10)=0;
 
 % Show gradient
