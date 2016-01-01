@@ -1,0 +1,2 @@
+- "Summarize the most applied region based approaches": these are meant to be the ones of "previous work" or the ones used in the paper (HOG, WST and UCM)
+- Are we supposed to not use predefinded functions of Matlab such as "watershed", "bwdist", etc?

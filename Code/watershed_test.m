@@ -11,7 +11,7 @@ im=imread([path_im image]);
 
 
 I = rgb2gray(im);
-figure(1),imshow(I)
+% figure(1),imshow(I)
 
 % text(330,501,'Original Image','FontSize',12,'HorizontalAlignment','right')
 
@@ -66,16 +66,20 @@ D(C)=-Inf;
 % L: label matrix that contains positive integers corresponding to the 
 % locations of each catchment basins 
 L=watershed(D);
-white=ones(size(L));
-white(L==0)=0; 
+white1=ones(size(L));
+white1(L==0)=0; 
 
 str=sprintf('output watershed, L (level= %0.2f)',level_i);
-imshow(white),title(str)
+imshow(white1),title(str)
 
 
 Wi=label2rgb(L,'hot','w'); % hot colormap
-figure(6), imshow(Wi); title('output WS + label2rgb')
-im=I;
-im(L==0)=0; % L==0 --> ridge lines
+% figure(6), imshow(Wi); title('output WS + label2rgb')
+im1=I;
+im1(L==0)=0; % L==0 --> ridge lines
 % im=imclose(im)
-figure(7), imshow(im); title('im')
+figure(7), imshow(im1); title('im')
+% L2=remove_small_regions(L,60);
+% im2=I;
+% im2(L2==0)=0
+% figure(8), imshow(im2); title('im removed small regions')
