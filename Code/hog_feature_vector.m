@@ -10,7 +10,7 @@ function [feature] = hog_feature_vector(im)
 % OUTPUT => HOG feature vector for that particular image
 
 % Example: Running the code
-% >>> im = imread('cameraman.tif');
+ im = imread(im);
 % >>> hog = hog_feature_vector (im);
 
 % Convert RGB image to grayscale

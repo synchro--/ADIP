@@ -1,9 +1,14 @@
+% Code implementing basic idea of the Arbelaez's algorithm 
+
+% Authors: Alessio Salman, María Silos
+
+
 
 %Initial conditions
 %in this way is independent from the OS and the current file system 
 %pwd specify the current directory and filesep is '\' on windows and '/' on Linux 
 root_path = pwd;
-path_im=[root_path filesep 'ADIP' filesep 'images' filesep]; 
+path_im=[root_path filesep 'Images' filesep]; 
 image = 'im_larger.jpg';
 im=imread([path_im image]);
 num_bins=20;
