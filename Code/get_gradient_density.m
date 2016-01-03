@@ -1,9 +1,7 @@
 % Code implementing basic idea of the Arbelaez's algorithm 
+function [gradient_dens_max]= get_gradient_density(im,debug)
 
 % Authors: Alessio Salman, María Silos
-clc
-clear all
-close all
 
 tic
 %Initial conditions
@@ -11,7 +9,7 @@ tic
 %pwd specify the current directory and filesep is '\' on windows and '/' on Linux 
 root_path = pwd;
 path_im=[root_path filesep 'Images' filesep]; 
-image = 'im_larger.jpg';
+image = im;
 im=imread([path_im image]);
 % im=imrotate(im,45);% for the gradient in the 45º direction. It gives worst
 % results and same efficiency
@@ -79,36 +77,38 @@ end
 % imshow(uint8(final));
 % title('Gradient Density in 45º')
 
-% Show gradients
-figure(1)
-subplot(1,3,1)
-imshow(uint8(gradient_dens_y));
-title('Gradient Density in Y')
-subplot(1,3,2)
-imshow(uint8(gradient_dens_x));
-title('Gradient Density in X ')
-subplot(1,3,3)
-imshow(uint8(gradient_dens_max));
-title('Gradient Density in X and Y')
-filtered=sgolayfilt(gradient_dens_max,2,7)
+if debug
+    % Show gradients
+    figure(1)
+    subplot(1,3,1)
+    imshow(uint8(gradient_dens_y));
+    title('Gradient Density in Y')
+    subplot(1,3,2)
+    imshow(uint8(gradient_dens_x));
+    title('Gradient Density in X ')
+    subplot(1,3,3)
+    imshow(uint8(gradient_dens_max));
+    title('Gradient Density in X and Y')
+    filtered=sgolayfilt(gradient_dens_max,2,7)
 
-figure(2)
-subplot(1,2,1)
-gradient_dens_max(gradient_dens_max<10)=0;
-imshow(uint8(gradient_dens_max));
-title('filtered val<10')
-subplot(1,2,2)
-gradient_dens_max(gradient_dens_max<20)=0;
-imshow(uint8(gradient_dens_max));
-title('filtered val<20')
+    figure(2)
+    subplot(1,2,1)
+    gradient_dens_max(gradient_dens_max<10)=0;
+    imshow(uint8(gradient_dens_max));
+    title('filtered val<10')
+    subplot(1,2,2)
+    gradient_dens_max(gradient_dens_max<20)=0;
+    imshow(uint8(gradient_dens_max));
+    title('filtered val<20')
 
-figure(3)
-subplot(1,2,1)
-gradient_dens_max(gradient_dens_max<25)=0;
-imshow(uint8(gradient_dens_max));
-title('filtered val<25')
-subplot(1,2,2)
-imshow(uint8(filtered));
-title('filtered image_sgolayfilt')
+    figure(3)
+    subplot(1,2,1)
+    gradient_dens_max(gradient_dens_max<25)=0;
+    imshow(uint8(gradient_dens_max));
+    title('filtered val<25')
+    subplot(1,2,2)
+    imshow(uint8(filtered));
+    title('filtered image_sgolayfilt')
+end
 
 toc
