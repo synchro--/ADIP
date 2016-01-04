@@ -48,25 +48,28 @@ gradient_dens_y=zeros(rows,cols);
 
 im=imrotate(im,-45);
 %we process each histogram bin separately
-I_b_array=compute_histogram_bins(im,num_bins);
+I_b_cell=compute_histogram_bins(im,num_bins);
+save('var.mat'); 
 
+%%
+load('var.mat');
 
 % Histograms of the central part (without taking into account the 5 pixels
 % borders)
 for r=5:rows-5
+     %fprintf(' raw= %d',r)
     for c=5:cols-5
         
         % Oriented rotated histogram
-         fprintf('raw= %d',r)
-         fprintf('col= %d  \n',c)
+        % fprintf('col= %d  \n',c)
         
         
         for n=1:num_bins
             
-            I_b=(I_b_array(n,:,:));
-            disp(size(I_b));
-            I_b=reshape(I_b,size(im,1),size(im,2));
-            J=integralImage(I_b);
+            %I_b=(I_b_cell(n,:,:));
+            %I_b=reshape(I_b,size(im,1),size(im,2));
+            
+            J=integralImage(I_b_cell{1,n});
             
             %Define rectangular region as [startingRow, startingColumn, endingRow, endingColumn].
             [sR sC eR eC] = deal(r-4,c-4,r,c+5);
@@ -80,12 +83,12 @@ for r=5:rows-5
         end
         
         
-        
+        gradient_magnitude_x=up_hist-down_hist;
         
         % using this instead of a for loop change the results (don't know
         % why). And decrease the time 5 seconds
-        sum_val_x=sum((up_hist-down_hist).^2./(up_hist+down_hist));
-        gradient_magnitude_x=0.5*sum_val_x;
+        %sum_val_x=sum((up_hist-down_hist).^2./(up_hist+down_hist));
+        %gradient_magnitude_x=0.5*sum_val_x;
         
         %         % Oriented Histogram in Y
         %         new_im_left=im(r-4:r+5,c-4:c); % cut the image in order to have the left part
@@ -101,7 +104,7 @@ for r=5:rows-5
         
         % Max val of both
         %  gradient_dens_max(r,c)=max(gradient_magnitude_x, gradient_magnitude_y);
-        gradient_dens_x(r,c)=gradient_magnitude_x;
+        gradient_dens_x(r,c)=sum(gradient_magnitude_x);
         %   gradient_dens_y(r,c)=gradient_magnitude_y;
         
         

@@ -47,8 +47,10 @@ gradient_dens_y=zeros(rows,cols);
 % 8.Repeat the previous points for all the bins (not clear how to do with matlab functions?)
 
 im=imrotate(im,-45);
+rows=size(im,1);
+cols=size(im,2);
 %we process each histogram bin separately
-I_b_array=compute_histogram_bins(im,num_bins);
+I_b_cell=compute_histogram_bins(im,num_bins);
 save('var.mat'); 
 
 %%
@@ -57,7 +59,8 @@ load('var.mat');
 % Histograms of the central part (without taking into account the 5 pixels
 % borders)
 for r=5:rows-5
-     fprintf('raw= %d',r)
+    tic
+    %fprintf(' raw= %d',r)
     for c=5:cols-5
         
         % Oriented rotated histogram
@@ -66,9 +69,10 @@ for r=5:rows-5
         
         for n=1:num_bins
             
-            I_b=(I_b_array(n,:,:));
-            I_b=reshape(I_b,size(im,1),size(im,2));
-            J=integralImage(I_b);
+            %I_b=(I_b_cell(n,:,:));
+            %I_b=reshape(I_b,size(im,1),size(im,2));
+            
+            J=integralImage(I_b_cell{1,n});
             
             %Define rectangular region as [startingRow, startingColumn, endingRow, endingColumn].
             [sR sC eR eC] = deal(r-4,c-4,r,c+5);
@@ -108,6 +112,7 @@ for r=5:rows-5
         
         
     end
+    toc
 end
 
 im=imrotate(im,45);
