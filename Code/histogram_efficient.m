@@ -79,6 +79,7 @@ for r=5:rows-5
             J=cumsum(double(I_b_cell{1,n}),2);
             J(:,cols+1)=0;
             J(rows+1,:)=0;
+
             
             %Define rectangular region as [startingRow, startingColumn, endingRow, endingColumn].
             [sR sC eR eC] = deal(r-4,c-4,r,c+5);
