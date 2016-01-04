@@ -3,11 +3,6 @@ function [gradient_dens_max]= get_gradient_density(im,debug)
 
 % Authors: Ali Alessio Salman, Mar�a Silos
 
-clc
-clear all
-close all
-
-
 tic
 %Initial conditions
 %in this way is independent from the OS and the current file system 

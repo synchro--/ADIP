@@ -17,3 +17,7 @@ imshow(im);
 subplot(1,2,2);
 plot(visualization);
 
+%%
+clc
+ret=get_gradient_density('im_larger.jpg',1); 
+
