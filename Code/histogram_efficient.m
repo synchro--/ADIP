@@ -62,25 +62,21 @@ for r=5:rows-5
     tic
     %fprintf(' raw= %d',r)
     for c=5:cols-5
-        
         % Oriented rotated histogram
         % fprintf('col= %d  \n',c)
         
         
-        for n=1:num_bins
-            
-            %I_b=(I_b_cell(n,:,:));
-            %I_b=reshape(I_b,size(im,1),size(im,2));
-            
+        for n=1:num_bins     
             %computing the integral image, choose one of the two
             %if we use cumsum then we have to pad with 0s the last row and
             %column
-            %J=integralImage(I_b_cell{1,n});
-            J=cumsum(double(I_b_cell{1,n}),2);
-            J(:,cols+1)=0;
-            J(rows+1,:)=0;
-
             
+            J=integralImage(I_b_cell{1,n});  %takes 10^-3 sec
+%             J=cumsum(double(I_b_cell{1,n}),2);
+%             J(:,cols+1)=0;
+%             J(rows+1,:)=0;
+               
+            %the integralimage based sum region takes just 10^-5 sec
             %Define rectangular region as [startingRow, startingColumn, endingRow, endingColumn].
             [sR sC eR eC] = deal(r-4,c-4,r,c+5);
             regionSum = J(eR+1,eC+1) - J(eR+1,sC) - J(sR,eC+1) + J(sR,sC);
@@ -93,7 +89,7 @@ for r=5:rows-5
         end
         
         
-        gradient_magnitude_x=up_hist-down_hist;
+        gradient_magnitude_x=up_hist-down_hist; %10^-6
         
         % using this instead of a for loop change the results (don't know
         % why). And decrease the time 5 seconds
@@ -114,7 +110,9 @@ for r=5:rows-5
         
         % Max val of both
         %  gradient_dens_max(r,c)=max(gradient_magnitude_x, gradient_magnitude_y);
-        gradient_dens_x(r,c)=sum(gradient_magnitude_x);
+        
+        gradient_dens_x(r,c)=sum(gradient_magnitude_x); %10^-5
+        
         %   gradient_dens_y(r,c)=gradient_magnitude_y;
         
         
