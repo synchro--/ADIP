@@ -15,8 +15,6 @@ root_path = pwd;
 path_im=[root_path filesep 'Images' filesep]; 
 image = 'im_larger.jpg';
 im=imread([path_im image]);
-% im=imrotate(im,45);% for the gradient in the 45� direction. It gives worst
-% results and same efficiency
 num_bins=20;
 neighbors=5; % Number of neighbouring pixels
 
@@ -33,6 +31,20 @@ left_hist=[];
 right_hist=[];
 gradient_dens_x=zeros(rows,cols); % black image
 gradient_dens_y=zeros(rows,cols);
+
+
+% EFFICIENT COMPUTATION
+% 1.Rotate the intensity image of a certain angle
+% 2.Approximate the circle with a rectangle
+% 3.Consider 2 different rectangles (upper part/lower part)
+% 4.Compute the integral image of the rotated image  
+% 5.Compute the histogram of each halves of the rectangle using the sum of
+%   over the region with the integral image, as stated in the paper:
+%   J(P)+J(S)-J(Q)-J(R)
+% 6.
+% 7.
+
+% im=imrotate(im,45);
 
 % Histograms of the central part (without taking into account the 5 pixels
 % borders)

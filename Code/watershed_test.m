@@ -1,11 +1,10 @@
-
 clc
 clear all
 close all
 
 % Reading Image
 root_path = pwd;
-path_im=[root_path filesep 'images' filesep]; 
+path_im=[root_path filesep 'images' filesep];
 image = 'maria_2.jpg';
 im=imread([path_im image]);
 
@@ -24,16 +23,16 @@ I = rgb2gray(im);
 %  gradmag = sqrt(Ix.^2 + Iy.^2);
 %  figure
 %  imshow(gradmag,[]), title('Gradient magnitude (gradmag)')
-% 
-%  L= watershed(gradmag); 
+%
+%  L= watershed(gradmag);
 % %  Lrgb = label2rgb(L)
 %  figure, imshow(L)
- 
 
 
 
 
-% topath: for the substraction of an opened image from the original. It
+
+% tophat: for the subtraction of an opened image from the original. It
 % removes all features smaller than the structuring element. It's basically
 % removing noise
 I1= imtophat(I,strel('disk',10));
@@ -56,18 +55,18 @@ C=~BW;
 figure(5), imshow(C); title('output C=~BW')
 
 % Distance transform D --> distance from every pixel to the nearest
-% nonzero-valued pixel. The - sign 
+% nonzero-valued pixel. The - sign
 D=-bwdist(C);
 
 % Background pixels and the extended maxima pixels are forced to be the
 % only local minima in the image
 D(C)=-Inf;
 
-% L: label matrix that contains positive integers corresponding to the 
-% locations of each catchment basins 
+% L: label matrix that contains positive integers corresponding to the
+% locations of each catchment basins
 L=watershed(D);
 white1=ones(size(L));
-white1(L==0)=0; 
+white1(L==0)=0;
 
 str=sprintf('output watershed, L (level= %0.2f)',level_i);
 imshow(white1),title(str)

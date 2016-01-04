@@ -86,11 +86,11 @@ end
 % Show gradients
 figure(1)
 subplot(1,3,1)
-imshow(uint8(gradient_dens_x));
-title('Gradient Density in X ')
-subplot(1,3,2)
 imshow(uint8(gradient_dens_y));
 title('Gradient Density in Y')
+subplot(1,3,2)
+imshow(uint8(gradient_dens_x));
+title('Gradient Density in X ')
 
 subplot(1,3,3)
 imshow(uint8(gradient_dens_max));
@@ -114,6 +114,6 @@ imshow(uint8(gradient_dens_max));
 title('filtered val<25')
 subplot(1,2,2)
 imshow(uint8(filtered));
-title('filtered image\_sgolayfilt')
+title('filtered image_sgolayfilt')
 
 toc
