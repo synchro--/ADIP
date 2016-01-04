@@ -35,8 +35,8 @@ gradient_dens_y=zeros(rows,cols);
 for r=5:rows-5
     for c=5:cols-5
 %         % Oriented Histogram in X
-        fprintf('raw= %d',r)
-        fprintf('col= %d  \n',c)
+%         fprintf('raw= %d',r)
+%         fprintf('col= %d  \n',c)
         new_im_up=im(r-4:r,c-4:c+5); % cut the image in order to have the upper part
         [counts_x,~]=imhist(new_im_up,num_bins);
         counts_x(counts_x==0)=1; 
