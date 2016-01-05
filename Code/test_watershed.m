@@ -1,19 +1,6 @@
-% using get_gradient_density output to implement watershed algorithm
-clc
-clear all
-close all
-
-tic
-% Reading Image
-root_path = pwd;
-path_im=[root_path filesep 'Images' filesep];
-image = 'im_larger.jpg';
-im=imread([path_im image]);
+% I: countour image
 
 
-% I=get_gradient_density(image,0); % image is re-read inside
-
-figure(1),imshow(uint8(I))
 
 level_thr=graythresh(uint8(I));
 
@@ -38,10 +25,19 @@ D=-bwdist(C);
 D(C)=-Inf;
 
 
+%%%%%%%%%%% WATERSHED
+% Converting image into 3d
+I2 = double(I);
+y = imagesc(I2);% gives 2D image
+z = mesh(I);
 
-% L: label matrix that contains positive integers corresponding to the
-% locations of each catchment basins
-L=watershed(D);
+L=watershed(y)
+
+
+
+
+%%%%%%%%% output: L --> L= watershed(D)
+
 white1=ones(size(L));
 white1(L==0)=0;
 
@@ -52,4 +48,4 @@ str=sprintf('Segmented image');
 
 im(L==0)=0;
 figure,imshow(uint8(im)),title(str)
-toc
+
