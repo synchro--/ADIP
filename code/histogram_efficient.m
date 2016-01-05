@@ -10,7 +10,7 @@ tic
 %Initial conditions
 %in this way is independent from the OS and the current file system
 %pwd specify the current directory and filesep is '\' on windows and '/' on Linux
-%has to be run inside ADIP directory
+%has to be run inside ADIP directorydip_Initialise();
 root_path = pwd;
 path_im=[root_path filesep 'Images' filesep];
 image = 'im_larger.jpg';
@@ -99,7 +99,7 @@ for n=1:num_bins
             %HOW TO PROPERLY USE THE right_hist and left_hist, below I'm
             %trying different operations, but results are not as expected
             %:/ **************************
-            
+            up_hist(up_hist==0)=1
             %gradient_magnitude_x=max(up_hist-down_hist); %10^-6
             gradient_magnitude_x=sum(up_hist-down_hist); %10^-6
             %sum_val_x=sum((up_hist-down_hist).^2./(up_hist+down_hist));
@@ -116,7 +116,7 @@ for n=1:num_bins
             
             
             %gradient_magnitude_y=max(up_hist-down_hist); %10^-6
-            gradient_magnitude_y=sum(up_hist-down_hist); %10^-6
+            gradient_magnitude_y=sum(left_hist-right_hist); %10^-6
             %sum_val_y= sum((left_hist-right_hist).^2./(left_hist+right_hist));
             %gradient_magnitude_y=0.5*sum_val_y;
 

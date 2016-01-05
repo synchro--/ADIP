@@ -1,12 +1,8 @@
 % Code implementing basic idea of the Arbelaez's algorithm 
 function [gradient_dens_max]= get_gradient_density(im,debug)
 
-<<<<<<< HEAD
-% Authors: Ali Alessio Salman, Maria Silos
 
-=======
-% Authors: Ali Alessio Salman, Marï¿½a Silos
->>>>>>> 728369e5c81aa0a4afb9738711f21fed36ff7810
+% Authors: Ali Alessio Salman, Maria Silos
 
 tic
 %Initial conditions
@@ -17,7 +13,7 @@ root_path = pwd;
 path_im=[root_path filesep 'Images' filesep]; 
 image = im;
 im=imread([path_im image]);
-% im=imrotate(im,45);% for the gradient in the 45ï¿½ direction. It gives worst
+%  im=imrotate(im,45);% for the gradient in the 45ï¿½ direction. It gives worst
 % results and same efficiency
 num_bins=20;
 neighbors=5; % Number of neighbouring pixels
@@ -40,10 +36,6 @@ gradient_dens_y=zeros(rows,cols);
 % borders)
 for r=5:rows-5
     for c=5:cols-5
-%         % Oriented Histogram in X
-%         fprintf('raw= %d',r)
-%         fprintf('col= %d  \n',c)
-        
       % Oriented Histogram in X
       % fprintf('raw= %d',r)
       % fprintf('col= %d  \n',c)
@@ -76,17 +68,18 @@ for r=5:rows-5
         gradient_dens_max(r,c)=max(gradient_magnitude_x, gradient_magnitude_y);
         gradient_dens_x(r,c)=gradient_magnitude_x;
         gradient_dens_y(r,c)=gradient_magnitude_y;
-
-
+%           % For 45º degrees: 
+%           gradient_dens_max(r,c)=gradient_magnitude_x;
     end
 end
 
-% gauss=fspecial('gaussian',8,1); %% Initialized a gaussian filter with sigma=0.5 * block width.
-
-% final=imrotate(gradient_dens_x,-45)
-% final=imcrop(final) % you have to manually crop the image 
+% % For 45º degrees:
+% gradient_dens_max(gradient_dens_max==1)=0;
+% % gauss=fspecial('gaussian',8,1); %% Initialized a gaussian filter with sigma=0.5 * block width.
+% final=imrotate(gradient_dens_max,-45,'crop');
+% % final=imcrop(final) % you have to manually crop the image 
 % imshow(uint8(final));
-% title('Gradient Density in 45ï¿½')
+% title('Gradient Density in 45')
 
 
 if debug
@@ -124,5 +117,7 @@ if debug
     title('filtered image_sgolayfilt')
     
 end
+gradient_dens_max(gradient_dens_max<20)=0;
 
 toc
+end
