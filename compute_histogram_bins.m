@@ -1,4 +1,4 @@
-function I_b_cell = compute_histogram_bins(im,num_bins)
+function [I_b_cell,edges] = compute_histogram_bins(im,num_bins)
 rows=size(im,1);
 cols=size(im,2);
 I_b_cell=cell(1,num_bins);
@@ -16,8 +16,6 @@ for n=1:num_bins
     for i=1:rows
         for j=1:cols
             %n+1 -> n  histcounts -> imhist 
-                
-            
             if im(i,j) <= edges(n+1) && im(i,j) > edges(n)
                 I_b(i,j)=1;
             end

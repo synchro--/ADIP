@@ -9,12 +9,13 @@ tic
 %in this way is independent from the OS and the current file system 
 %pwd specify the current directory and filesep is '\' on windows and '/' on Linux 
 %has to be run inside ADIP directory
-root_path = pwd;
-path_im=[root_path filesep 'Images' filesep]; 
-image = im;
-im=imread([path_im image]);
-%  im=imrotate(im,45);% for the gradient in the 45� direction. It gives worst
-% results and same efficiency
+
+% root_path = pwd;
+% path_im=[root_path filesep 'Images' filesep]; 
+% image = im;
+% im=imread([path_im image]);
+% disp('Getting the contour...')
+%  im=imrotate(im,45);% let's try without rotation first
 num_bins=20;
 neighbors=5; % Number of neighbouring pixels
 

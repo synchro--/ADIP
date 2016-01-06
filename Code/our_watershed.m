@@ -10,16 +10,13 @@ path_im=[root_path filesep 'Images' filesep];
 image = 'im_larger.jpg';
 im=imread([path_im image]);
 
-
+I=get_gradient_density(image,0)
 % I=get_gradient_density(image,0); % image is re-read inside
 
 figure(1),imshow(uint8(I))
 
 level_thr=graythresh(uint8(I));
 
-
- % this part is not working... it doesn't get to convert the image into BW.
-% What is happening?????????????????????????????????????????????
 BW=im2bw(uint8(I),level_thr);
 figure(2), imshow(BW); title('output im2bw')
 
@@ -36,8 +33,6 @@ D=-bwdist(C);
 % Background pixels and the extended maxima pixels are forced to be the
 % only local minima in the image
 D(C)=-Inf;
-
-
 
 % L: label matrix that contains positive integers corresponding to the
 % locations of each catchment basins

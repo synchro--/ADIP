@@ -16,8 +16,6 @@ grey_levels=[min_val:1:max_val]
 % figure(1),imshow(uint8(I))
 % 
 level_thr=graythresh(grad);
-%  % this part is not working... it doesn't get to convert the image into BW.
-% % What is happening?????????????????????????????????????????????
  BW=im2bw(grad,level_thr);
 %  BW=medfilt2(BW, [5 5])
 figure(2), imshow(BW); title('output im2bw')
@@ -27,24 +25,27 @@ figure(2), imshow(BW); title('output im2bw')
 % % contour 
 % % but we want background= white and image=black
 C=BW; % we want our cuntour to be the background.. so now the contours are white and the rest black
-D=bwdist(C);
+D=-bwdist(C);
 max_val_D=max(D(:));
 min_val_grad=min_val; 
 thr=112; % maximum was 115, so we are taking a few seeds. 79 for im_larger if thr=110
-seeds=find(D>thr&im==min_val); % locations of the seeds which are far enough and have minimum intensity value
+[seed_r,seed_c]=find(D>thr&im==min_val); % locations of the seeds which are far enough and have minimum intensity value
+% seeds: vector of positions of seeds
 
+D(C)=-Inf; % BG PIXELS AND THE EXTENDED MAXIMA PIXELS ARE FORCED TO BE THE ONLY LOCAL MINIMA OF THE IMAGE
+L=watershed(D);
 
-% D(C)=-Inf; % BG PIXELS AND THE EXTENDED MAXIMA PIXELS ARE FORCED TO BE THE ONLY LOCAL MINIMA OF THE IMAGE
-% L=watershed(D);
-
-%%%%%%%%%%%%%%%% WATERSHED
-for int_level=min_val:max_val % goes layer by layer through the topographic image along all the intensity values
+% %%%%%%%%%%%%%%% WATERSHED
+% for int_level=min_val:max_val % goes layer by layer through the topographic image along all the intensity values
 %     cojo un vector con todos los valores
-    seeds(int_level)
-    
-    
-    
-end
+%     seeds(int_level)
+%     
+%     
+%     
+% end
 
+white1=ones(size(grad));
+white1(L==0)=0;
+imshow(uint8(white1))
 
 
