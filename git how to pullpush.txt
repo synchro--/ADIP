@@ -1,4 +1,5 @@
 git add . 
 git commit -m 'message'
 git pull 
+<fix conflicts if any>
 git push origin master 

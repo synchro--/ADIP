@@ -15,7 +15,7 @@ image = im;
 im=imread([path_im image]);
 % im=imrotate(im,45);% for the gradient in the 45� direction. It gives worst
 % results and same efficiency
-num_bins=20;
+num_bins=8;
 neighbors=5; % Number of neighbouring pixels
 
 % Convert RGB image to grayscale
@@ -49,8 +49,8 @@ for r=5:rows-5
         up_hist= counts_x;
         new_im_down=im(r+1:r+5,c-4:c+5); % cut the image in order to have the lower part
         [counts_x,~]=imhist(new_im_down,num_bins);
+        counts_x(counts_x==0)=1; 
         down_hist=counts_x;
-%         counts_x(counts_x==0)=1; 
         % using this instead of a for loop change the results (don't know
         % why). And decrease the time 5 seconds
         sum_val_x=sum((up_hist-down_hist).^2./(up_hist+down_hist));
@@ -63,8 +63,9 @@ for r=5:rows-5
         left_hist= counts_y;
         new_im_right=im(r-4:r+5,c+1:c+5); % cut the image in order to have the right part
         [counts_y,~]=imhist(new_im_right,num_bins);
+        counts_y(counts_y==0)=1;
         right_hist=counts_y;
-%         counts_y(counts_y==0)=1;
+
         sum_val_y= sum((left_hist-right_hist).^2./(left_hist+right_hist));
         gradient_magnitude_y=0.5*sum_val_y;
         
@@ -120,5 +121,7 @@ if debug
     title('filtered image_sgolayfilt')
     
 end
+
+save('gdd.mat');
 
 toc
