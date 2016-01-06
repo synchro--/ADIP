@@ -33,7 +33,7 @@ for n=imin+1:imax;
     for q=1:NQ;
         % Find how many (if any) connected components of CB are intersected
         newq  = (Q==q) & (CB > 0); %intersection between the 2 matrixes
-        nqint = get_number_list(CB(newq)); 
+        nqint = get_number_list(CB(newq)); %taking the label of the connected component in common
     
         % Different scenarios are treated now:
         %
@@ -48,6 +48,10 @@ for n=imin+1:imax;
         %   grow CB with the new points found in q
         elseif(length(nqint)==1),
             CBnplus1 = CB + nqint*((Q==q) & (CB==0));
+            %nqint is there to have the right label
+            %(Q==q) & CB==0 is the component that
+            %isn't already present in CB, we put inside only that one not
+            %other numbers! 
             
             
         % 3) q intersects more than one region in C[n-1]:
@@ -55,7 +59,8 @@ for n=imin+1:imax;
         else
             [CBnplus1, dam] = grow_regions_inside_Q(CB, Q==q);
         end;
-        CB = CBnplus1;
+        
+        CB = CBnplus1; %C[n] = C[n+1]
     end;
     toc
     

@@ -17,7 +17,7 @@ path_im=[root_path filesep 'Images' filesep];
 image = 'im_larger.jpg';
 im=imread([path_im image]);
 
-num_bins=64;
+num_bins=8;
 neighbors=5; % Number of neighbouring pixels
 
 % Convert RGB image to grayscale
@@ -64,7 +64,7 @@ gradient_dens_y=zeros(rows,cols);
 % 8.Repeat the previous points for all the bins
 % 9.Difference between histograms (how to proper do this?)
 
-%im=imrotate(im,-45);
+im=imrotate(im,-45);
 rows=size(im,1);
 cols=size(im,2);
 %we process each histogram bin separately
@@ -84,7 +84,7 @@ tic
 for n=1:num_bins
     J_cell{1,n} = integralImage(I_b_cell{1,n});
 end
-toc
+
 
 
 % %save('var.mat');
@@ -162,8 +162,8 @@ for r=5:rows-5
         
         %***+ CHECKING WITH MATLAB FUNCTIONS *****
         %upper part
-        new_im_up=im(r-4:r,c-4:c+5); % cut the image in order to have the upper part
-        [counts_x,~]=histcounts(new_im_up,num_bins);
+        %new_im_up=im(r-4:r,c-4:c+5); % cut the image in order to have the upper part
+        %[counts_x,~]=histcounts(new_im_up,num_bins);
         %fprintf('counts(n)= %d\n',counts_x(n));
         %fprintf('up_hist(n)= %d\n\n\n', up_hist(n));
         
@@ -192,7 +192,8 @@ for r=5:rows-5
         % Max val of both
         gradient_dens_x(r,c)=gradient_magnitude_x; %10^-5
         gradient_dens_y(r,c)=gradient_magnitude_y;
-        gradient_dens_max(r,c)=max(gradient_magnitude_x, gradient_magnitude_y);
+        %gradient_dens_max(r,c)=max(gradient_magnitude_x, gradient_magnitude_y);
+        gradient_dens_max(r,c)=gradient_dens_x(r,c);
                 
     end
     
@@ -201,7 +202,12 @@ end
 
 
 %rotate the image back
-%im=imrotate(im,45);
+gradient_dens_x=imrotate(gradient_dens_x,45);
+gradient_dens_y=imrotate(gradient_dens_y,45);
+gradient_dens_max=imrotate(gradient_dens_max,45);
+
+sgo_grad=sgolayfilt(gradient_dens_max,2,7);
+median_grad=medfilt2(gradient_dens_max,[3 3]);
 
 % Show gradients
 figure(1)
@@ -215,7 +221,6 @@ title('Gradient Density in Y')
 subplot(1,3,3)
 imshow(uint8(gradient_dens_max));
 title('Gradient Density in X and Y')
-filtered=sgolayfilt(gradient_dens_max,2,7);
 
 figure(2)
 subplot(1,2,1)
@@ -223,17 +228,16 @@ gradient_dens_max(gradient_dens_max<10)=0;
 imshow(uint8(gradient_dens_max));
 title('filtered val<10')
 subplot(1,2,2)
-gradient_dens_max(gradient_dens_max<20)=0;
+gradient_dens_max(gradient_dens_max<15)=0;
 imshow(uint8(gradient_dens_max));
-title('filtered val<20')
+title('filtered val<15')
 
 figure(3)
 subplot(1,2,1)
-gradient_dens_max(gradient_dens_max<25)=0;
-imshow(uint8(gradient_dens_max));
-title('filtered val<25')
+imshow(uint8(median_grad));
+title('median filtered gradient')
 subplot(1,2,2)
-imshow(uint8(filtered));
+imshow(uint8(sgo_grad));
 title('filtered image\_sgolayfilt')
 
 save('hist_comparison.mat');
