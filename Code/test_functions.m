@@ -26,7 +26,7 @@ end
 array=compute_hist_bins_with_imhist(im, num_bins);
 
 counter=0;
-for i=1:num_bins 
+for i=1:num_bins-1
     a=array{1,i};
     b=sum(a); 
     tot(i)=sum(b); 
