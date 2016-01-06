@@ -9,12 +9,14 @@ tic
 %in this way is independent from the OS and the current file system 
 %pwd specify the current directory and filesep is '\' on windows and '/' on Linux 
 %has to be run inside ADIP directory
-root_path = pwd;
-path_im=[root_path filesep 'Images' filesep]; 
-image = im;
-im=imread([path_im image]);
+
+% root_path = pwd;
+% path_im=[root_path filesep 'Images' filesep]; 
+% image = im;
+% im=imread([path_im image]);
 % im=imrotate(im,45);% for the gradient in the 45� direction. It gives worst
 % results and same efficiency
+disp('Getting the contour...')
 num_bins=8;
 neighbors=5; % Number of neighbouring pixels
 
@@ -39,7 +41,6 @@ for r=5:rows-5
 %         % Oriented Histogram in X
 %         fprintf('raw= %d',r)
 %         fprintf('col= %d  \n',c)
-        
       % Oriented Histogram in X
       % fprintf('raw= %d',r)
       % fprintf('col= %d  \n',c)
@@ -73,8 +74,6 @@ for r=5:rows-5
         gradient_dens_max(r,c)=max(gradient_magnitude_x, gradient_magnitude_y);
         gradient_dens_x(r,c)=gradient_magnitude_x;
         gradient_dens_y(r,c)=gradient_magnitude_y;
-
-
     end
 end
 
