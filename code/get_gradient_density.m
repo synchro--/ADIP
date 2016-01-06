@@ -1,21 +1,20 @@
 % Code implementing basic idea of the Arbelaez's algorithm 
 function [gradient_dens_max]= get_gradient_density(im,debug)
 
-
 % Authors: Ali Alessio Salman, Maria Silos
+
 
 tic
 %Initial conditions
 %in this way is independent from the OS and the current file system 
 %pwd specify the current directory and filesep is '\' on windows and '/' on Linux 
 %has to be run inside ADIP directory
-
-% root_path = pwd;
-% path_im=[root_path filesep 'Images' filesep]; 
-% image = im;
-% im=imread([path_im image]);
-% disp('Getting the contour...')
-%  im=imrotate(im,45);% let's try without rotation first
+root_path = pwd;
+path_im=[root_path filesep 'Images' filesep]; 
+image = im;
+im=imread([path_im image]);
+% im=imrotate(im,45);% for the gradient in the 45ï¿½ direction. It gives worst
+% results and same efficiency
 num_bins=20;
 neighbors=5; % Number of neighbouring pixels
 
@@ -37,6 +36,10 @@ gradient_dens_y=zeros(rows,cols);
 % borders)
 for r=5:rows-5
     for c=5:cols-5
+%         % Oriented Histogram in X
+%         fprintf('raw= %d',r)
+%         fprintf('col= %d  \n',c)
+        
       % Oriented Histogram in X
       % fprintf('raw= %d',r)
       % fprintf('col= %d  \n',c)
@@ -69,18 +72,17 @@ for r=5:rows-5
         gradient_dens_max(r,c)=max(gradient_magnitude_x, gradient_magnitude_y);
         gradient_dens_x(r,c)=gradient_magnitude_x;
         gradient_dens_y(r,c)=gradient_magnitude_y;
-%           % For 45º degrees: 
-%           gradient_dens_max(r,c)=gradient_magnitude_x;
+
+
     end
 end
 
-% % For 45º degrees:
-% gradient_dens_max(gradient_dens_max==1)=0;
-% % gauss=fspecial('gaussian',8,1); %% Initialized a gaussian filter with sigma=0.5 * block width.
-% final=imrotate(gradient_dens_max,-45,'crop');
-% % final=imcrop(final) % you have to manually crop the image 
+% gauss=fspecial('gaussian',8,1); %% Initialized a gaussian filter with sigma=0.5 * block width.
+
+% final=imrotate(gradient_dens_x,-45)
+% final=imcrop(final) % you have to manually crop the image 
 % imshow(uint8(final));
-% title('Gradient Density in 45')
+% title('Gradient Density in 45ï¿½')
 
 
 if debug
@@ -118,7 +120,5 @@ if debug
     title('filtered image_sgolayfilt')
     
 end
-gradient_dens_max(gradient_dens_max<20)=0;
 
 toc
-end

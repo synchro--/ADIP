@@ -14,6 +14,8 @@ for n=1:num_bins
     %filling the I_b matrix
     for i=1:rows
         for j=1:cols
+            
+
                 if im(i,j) < edges(n+1) && im(i,j) > edges(n)
                     I_b(i,j)=1;
                 end            
