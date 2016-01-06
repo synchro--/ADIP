@@ -4,7 +4,6 @@ function [gradient_dens_max]= get_gradient_density(im,debug)
 % Authors: Ali Alessio Salman, Maria Silos
 
 
-tic
 %Initial conditions
 %in this way is independent from the OS and the current file system 
 %pwd specify the current directory and filesep is '\' on windows and '/' on Linux 
@@ -32,6 +31,7 @@ right_hist=[];
 gradient_dens_x=zeros(rows,cols); % black image
 gradient_dens_y=zeros(rows,cols);
 
+tic
 % Histograms of the central part (without taking into account the 5 pixels
 % borders)
 for r=5:rows-5

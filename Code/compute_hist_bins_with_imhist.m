@@ -1,7 +1,7 @@
 function I_b_cell = compute_histogram_bins(im,num_bins)
 rows=size(im,1);
 cols=size(im,2);
-I_b_cell=cell(1,24);
+I_b_cell=cell(1,num_bins-1);
 [I_b_cell{:}] = deal(zeros(rows,cols));
 
 [N,edges]=imhist(im,num_bins);
