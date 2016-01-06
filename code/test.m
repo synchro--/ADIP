@@ -3,7 +3,7 @@ clc
 clear all
 close all
 
-image = 'images\im_larger.jpg';
+image = ['images' filesep 'im_larger.jpg'];
 im= imread(image);
 
 % Option 1
@@ -19,5 +19,4 @@ plot(visualization);
 
 %%
 clc
-%ret=get_gradient_density('im_larger.jpg',1); 
-ret=old_histogram_to_keep('im_larger.jpg',1);
+ret=get_gradient_density('im_larger.jpg',1); 

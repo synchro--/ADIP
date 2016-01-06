@@ -16,7 +16,8 @@ grey_levels=[min_val:1:max_val]
 % figure(1),imshow(uint8(I))
 % 
 level_thr=graythresh(grad);
- BW=im2bw(grad,level_thr);
+BW=im2bw(grad,level_thr);
+>>>>>>> 2334a9a6ec987559e1287b1464cbaeb3912d0e02
 %  BW=medfilt2(BW, [5 5])
 figure(2), imshow(BW); title('output im2bw')
 
