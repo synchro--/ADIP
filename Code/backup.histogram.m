@@ -7,7 +7,7 @@ clear all
 close all
 
 DEBUG=0;
-ROTATE=0;
+ROTATE=1;
 
 %Initial conditions
 %in this way is independent from the OS and the current file system

@@ -2,6 +2,7 @@ clc
 figure(1)
 clf
 
+%create structural element
 nhood = strel([1 1 1; 1 1 1; 1 1 1]);
 %
 %   Read the image and prepare it to be a seed
@@ -50,8 +51,7 @@ for n=imin+1:imax;
             CBnplus1 = CB + nqint*((Q==q) & (CB==0));
             %nqint is there to have the right label
             %(Q==q) & CB==0 is the component that
-            %isn't already present in CB, we put inside only that one not
-            %other numbers! 
+            %isn't already present in CB, we have to add only that one to CB.
             
             
         % 3) q intersects more than one region in C[n-1]:
