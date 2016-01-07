@@ -28,14 +28,17 @@ up_hist=[]; % Basic Matrix assignment of Upper Histogram
 down_hist=[]; % Basic Matrix assignment of Lower Histogram
 left_hist=[];
 right_hist=[];
+%size of the rectangles on which computes the histogram
+rec_1=200;
+rec_2=201;
 gradient_dens_x=zeros(rows,cols); % black image
 gradient_dens_y=zeros(rows,cols);
 
 tic
 % Histograms of the central part (without taking into account the 5 pixels
 % borders)
-for r=5:rows-5
-    for c=5:cols-5
+for r=rec_2:rows-rec_2
+    for c=rec_2:cols-rec_2
 %         % Oriented Histogram in X
 %         fprintf('raw= %d',r)
 %         fprintf('col= %d  \n',c)
@@ -43,11 +46,11 @@ for r=5:rows-5
       % Oriented Histogram in X
       % fprintf('raw= %d',r)
       % fprintf('col= %d  \n',c)
-        new_im_up=im(r-4:r,c-4:c+5); % cut the image in order to have the upper part
+        new_im_up=im(r-rec_1:r,c-rec_1:c+rec_2); % cut the image in order to have the upper part
         [counts_x,~]=imhist(new_im_up,num_bins);
         counts_x(counts_x==0)=1; 
         up_hist= counts_x;
-        new_im_down=im(r+1:r+5,c-4:c+5); % cut the image in order to have the lower part
+        new_im_down=im(r+1:r+rec_2,c-rec_1:c+rec_2); % cut the image in order to have the lower part
         [counts_x,~]=imhist(new_im_down,num_bins);
         counts_x(counts_x==0)=1; 
         down_hist=counts_x;
@@ -57,11 +60,11 @@ for r=5:rows-5
         gradient_magnitude_x=0.5*sum_val_x;
         
         % Oriented Histogram in Y
-        new_im_left=im(r-4:r+5,c-4:c); % cut the image in order to have the left part
+        new_im_left=im(r-rec_1:r+rec_2,c-rec_1:c); % cut the image in order to have the left part
         [counts_y,~]=imhist(new_im_left,num_bins);
         counts_y(counts_y==0)=1; 
         left_hist= counts_y;
-        new_im_right=im(r-4:r+5,c+1:c+5); % cut the image in order to have the right part
+        new_im_right=im(r-rec_1:r+rec_2,c+1:c+rec_2); % cut the image in order to have the right part
         [counts_y,~]=imhist(new_im_right,num_bins);
         counts_y(counts_y==0)=1;
         right_hist=counts_y;

@@ -20,4 +20,4 @@ plot(visualization);
 %%
 clc
 close all
-ret=get_gradient_density('im_larger.jpg',1); 
+ret=get_gradient_density('landscapeBIG.jpg',1); 

@@ -7,6 +7,7 @@ clear all
 close all
 
 DEBUG=0;
+ROTATE=0;
 
 %Initial conditions
 %in this way is independent from the OS and the current file system
@@ -14,7 +15,7 @@ DEBUG=0;
 %has to be run inside ADIP directory
 root_path = pwd;
 path_im=[root_path filesep 'Images' filesep];
-image = 'im_larger.jpg';
+image = 'landscapeHUGE.jpg';
 im=imread([path_im image]);
 
 num_bins=8;
@@ -26,7 +27,7 @@ if size(im,3)==3
 end
 
 %median filter, not sure if it's improving or not
-%im=medfilt2(im,[3 3]); 
+%im=medfilt2(im,[3 3]);
 
 
 figure(100);
@@ -43,6 +44,8 @@ border_cols=5;
 %less pixels > faster computation
 test_rows=250;
 test_cols=250;
+width1=4;
+width2=5;
 
 rows=size(im,1);
 cols=size(im,2);
@@ -64,12 +67,17 @@ gradient_dens_y=zeros(rows,cols);
 % 8.Repeat the previous points for all the bins
 % 9.Difference between histograms (how to proper do this?)
 
-im=imrotate(im,-45);
+tic
+if ROTATE==1
+    im=imrotate(im,-45);
+end
+toc
+
 rows=size(im,1);
 cols=size(im,2);
 %we process each histogram bin separately
 I_b_cell=compute_histogram_bins(im,num_bins);
-%I_b_cell=compute_hist_bins_with_imhist(im,num_bins); 
+%I_b_cell=compute_hist_bins_with_imhist(im,num_bins);
 
 
 %computing the integral image, choose one of the two
@@ -80,7 +88,7 @@ I_b_cell=compute_histogram_bins(im,num_bins);
 J_cell=cell(1,num_bins);
 [J_cell{:}] = deal(zeros(rows,cols));
 
-tic 
+tic
 for n=1:num_bins
     J_cell{1,n} = integralImage(I_b_cell{1,n});
 end
@@ -88,19 +96,19 @@ end
 
 
 % %save('var.mat');
-% 
+%
 % %****** TESTING VARIABLES ******%
 % %variable for my histogram
 % TEST_HIST=cell(test_rows - border_rows , test_cols - border_cols);
 % [TEST_HIST{:}] = deal(zeros(1,num_bins));
-% 
+%
 % %variable for matlab histogram function
 % TEST_HIST2=cell(test_rows - border_rows , test_cols - border_cols);
 % [TEST_HIST2{:}] = deal(zeros(1,num_bins));
-% 
+%
 % if DEBUG == 1
-%     rows=test_rows; 
-%     cols=test_cols; 
+%     rows=test_rows;
+%     cols=test_cols;
 % end
 
 %%
@@ -109,10 +117,10 @@ end
 % Histograms of the central part (without taking into account the 5 pixels
 % borders)
 
-for r=5:rows-5
+for r=width2:rows-width2
     
     %fprintf(' raw= %d',r)
-    for c=5:cols-5
+    for c=width2:cols-width2
         % Oriented rotated histogram
         % fprintf('col= %d  \n',c)
         
@@ -133,7 +141,7 @@ for r=5:rows-5
             
             %******* X-AXIS *******%
             %UPPER PART
-            [sR sC eR eC] = deal(r-4,c-4,r,c+5);
+            [sR sC eR eC] = deal(r-width1,c-width1,r,c+width2);
             regionSum = J(eR+1,eC+1) - J(eR+1,sC) - J(sR,eC+1) + J(sR,sC);
             up_hist(n)=regionSum;
             
@@ -141,19 +149,19 @@ for r=5:rows-5
             tmp_hist(n)=up_hist(n);
             
             %LOWER PART
-            [sR sC eR eC] = deal(r+1,c-4,r+5,c+5);
+            [sR sC eR eC] = deal(r+1,c-width1,r+width2,c+width2);
             regionSum = J(eR+1,eC+1) - J(eR+1,sC) - J(sR,eC+1) + J(sR,sC);
             down_hist(n)=regionSum;
             
             
             %******* Y-AXIS ******%
             %LEFT PART
-            [sR sC eR eC] = deal(r-4,c-4,r+5,c);
+            [sR sC eR eC] = deal(r-width1,c-width1,r+width2,c);
             regionSum = J(eR+1,eC+1) - J(eR+1,sC) - J(sR,eC+1) + J(sR,sC);
             left_hist(n)=regionSum;
             
             %RIGHT PART
-            [sR sC eR eC] = deal(r-4,c+1,r+5,c+5);
+            [sR sC eR eC] = deal(r-width1,c+1,r+width2,c+width2);
             regionSum = J(eR+1,eC+1) - J(eR+1,sC) - J(sR,eC+1) + J(sR,sC);
             right_hist(n)=regionSum;
             
@@ -162,7 +170,7 @@ for r=5:rows-5
         
         %***+ CHECKING WITH MATLAB FUNCTIONS *****
         %upper part
-        %new_im_up=im(r-4:r,c-4:c+5); % cut the image in order to have the upper part
+        %new_im_up=im(r-width1:r,c-width1:c+width2); % cut the image in order to have the upper part
         %[counts_x,~]=histcounts(new_im_up,num_bins);
         %fprintf('counts(n)= %d\n',counts_x(n));
         %fprintf('up_hist(n)= %d\n\n\n', up_hist(n));
@@ -194,35 +202,39 @@ for r=5:rows-5
         gradient_dens_y(r,c)=gradient_magnitude_y;
         %gradient_dens_max(r,c)=max(gradient_magnitude_x, gradient_magnitude_y);
         gradient_dens_max(r,c)=gradient_dens_x(r,c);
-                
+        
     end
     
     
 end
 
 
-%rotate the image back
-gradient_dens_x=imrotate(gradient_dens_x,45);
-gradient_dens_y=imrotate(gradient_dens_y,45);
-gradient_dens_max=imrotate(gradient_dens_max,45);
+
+if ROTATE==1
+    %rotate the image back
+    gradient_dens_x=imrotate(gradient_dens_x,45);
+    gradient_dens_y=imrotate(gradient_dens_y,45);
+    gradient_dens_max=imrotate(gradient_dens_max,45);
+end
+
 
 sgo_grad=sgolayfilt(gradient_dens_max,2,7);
 median_grad=medfilt2(gradient_dens_max,[3 3]);
 
 % Show gradients
 figure(1)
-subplot(1,3,1)
+subplot(1,2,1)
 imshow(uint8(gradient_dens_x));
 title('Gradient Density in X ')
-subplot(1,3,2)
+subplot(1,2,2)
 imshow(uint8(gradient_dens_y));
 title('Gradient Density in Y')
 
-subplot(1,3,3)
+figure(2)
 imshow(uint8(gradient_dens_max));
 title('Gradient Density in X and Y')
 
-figure(2)
+figure(3)
 subplot(1,2,1)
 gradient_dens_max(gradient_dens_max<10)=0;
 imshow(uint8(gradient_dens_max));
@@ -232,11 +244,12 @@ gradient_dens_max(gradient_dens_max<15)=0;
 imshow(uint8(gradient_dens_max));
 title('filtered val<15')
 
-figure(3)
-subplot(1,2,1)
+figure(4)
+%subplot(1,2,1)
 imshow(uint8(median_grad));
 title('median filtered gradient')
-subplot(1,2,2)
+%subplot(1,2,2)
+figure(5)
 imshow(uint8(sgo_grad));
 title('filtered image\_sgolayfilt')
 
