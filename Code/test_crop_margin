@@ -1,0 +1,5 @@
+im=imread('images/im_larger.jpg'); 
+im=imrotate(im,-45);
+im=imrotate(im,45);
+
+cropped=cropMargins(im);
