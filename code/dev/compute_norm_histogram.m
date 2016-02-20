@@ -1,12 +1,31 @@
 function [img,final_grad] = compute_norm_histogram(img_name)
+% Implementation of the basic idea of the Arbelaez's algorithm* to compute
+% the oriented gradient of histogram.
+% 
+%
+%%%%%%%%%%%% ALGORITHM FOR EFFICIENT COMPUTATION %%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% 1.Rotate the intensity image of a certain angle
+% 2.Approximate the circle with a rectangle
+% 3.Consider 2 different rectangles (upper part/lower part)
+% 4.Compute the integral image of the rotated image
+% 5.Compute the histogram of each halves of the rectangle using the sum of
+%   over the region with the integral image, as stated in the paper:
+%   J(P)+J(S)-J(Q)-J(R)
+% 6.Compute the difference between the histograms of the upper/lower part
+%   of the rectangle
+% 7.Rotate the image back
+% 8.Repeat the previous points for all the bins
+% 9.Compute Chi squared distance between the two histograms
+%
+% Input:  image
+% Output: image and computed gradient 
+%
+% Authors: Ali Alessio Salman, Marìa Silos
+%
+% See: http://www.cs.berkeley.edu/~arbelaez/publications/amfm_pami2011.pdf
 
-% Code implementing basic idea of the Arbelaez's algorithm
 
-% Authors: Ali Alessio Salman, Mar�a Silos
-
-% clc
-% clear all
-% close all
 
 %conditional variables
 DEBUG=0;
@@ -22,25 +41,18 @@ image = img_name;
 im=imread([path_im image]);
 img=im;
 
-% diff45_r=(size(im,1)-481)/2;
-% diff45_c=(size(im,2)-321)/2;
-% 
-% %setting the same size and merge the gradients
-% rows=size(im,1);
-% cols=size(im,2);
-% im=im(diff45_r:rows-(diff45_r+1) , diff45_c:cols-(diff45_c+1));
-
 
 %INIT
 num_bins=8;
-neighbors=5; % Number of neighbouring pixels
-
+neighbors=5; % Window size
 border_rows=5;
 border_cols=5;
+
 %these variables are only for testing purposes on the histogram values
-%less pixels > faster computation
+%less pixels ==> faster computation
 test_rows=250;
 test_cols=250;
+
 %width of the rectangle on which the histogram will
 %be computed for each pixel, area: 10x10
 width1=4;
@@ -77,31 +89,16 @@ figure(100);
 imshow(im);
 
 
-%%%%%%%%%%%% ALGORITHM FOR EFFICIENT COMPUTATION %%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% 1.Rotate the intensity image of a certain angle
-% 2.Approximate the circle with a rectangle
-% 3.Consider 2 different rectangles (upper part/lower part)
-% 4.Compute the integral image of the rotated image
-% 5.Compute the histogram of each halves of the rectangle using the sum of
-%   over the region with the integral image, as stated in the paper:
-%   J(P)+J(S)-J(Q)-J(R)
-% 6.Compute the difference between the histograms of the upper/lower part
-%   of the rectangle
-% 7.Rotate the image back
-% 8.Repeat the previous points for all the bins
-% 9.Compute Chi squared distance between the two histograms
+%%%%%%%%%%%% Here starts the algorithm as from the paper %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 rows=size(im,1);
 cols=size(im,2);
 %we process each histogram bin separately
 I_b_cell=compute_histogram_bins(im,num_bins);
-%I_b_cell=compute_hist_bins_with_imhist(im,num_bins);
 
 %initialize the cell that will contain all the integral images
 J_cell=cell(1,num_bins);
 [J_cell{:}] = deal(zeros(rows,cols));
-
 
 for n=1:num_bins
     J_cell{1,n} = integralImage(I_b_cell{1,n});
@@ -196,13 +193,13 @@ for r=width2:rows-width2
             
         end
         
-        
-        %***+ CHECKING WITH MATLAB FUNCTIONS *****
+        %***+ CROSS CHECKING WITH MATLAB FUNCTIONS *****
         %upper part
         %new_im_up=im(r-width1:r,c-width1:c+width2); % cut the image in order to have the upper part
         %[counts_x,~]=histcounts(new_im_up,num_bins);
         %fprintf('counts(n)= %d\n',counts_x(n));
         %fprintf('r_up_hist(n)= %d\n\n\n', r_up_hist(n));
+        
         
         if DEBUG == 1
             %saving for further comparison later
@@ -217,11 +214,9 @@ for r=width2:rows-width2
         down_hist(down_hist==0)=1;
         left_hist(left_hist==0)=1;
         right_hist(right_hist==0)=1;
+         
         
-        %this is the same utilization of the histograms as seen before and
-        %it works. However in the paper it seems we shouldn't use this but
-        %it's not clear at all (see Appendix efficient computation)
-        
+        %computing the gradient from the histogram
         sum_val_x=sum((up_hist-down_hist).^2./(up_hist+down_hist));
         gradient_magnitude_x=0.5*sum_val_x;
         
@@ -325,5 +320,3 @@ end
 %final_max_grad=max(gradient_dens_max,r_gradient_dens_max);
 
 final_grad = gradient_dens_max;
-% sgo_grad=sgolayfilt(gradient_dens_max,2,7);
-% median_grad=medfilt2(gradient_dens_max,[3 3]);

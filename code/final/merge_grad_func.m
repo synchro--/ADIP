@@ -1,12 +1,17 @@
 function final_grad = merging_gradient(gmax,r45,r125)
+% Merges the gradients that are given as input taking into account all the
+% differences in size and cropping those in a symmetric way to make them all
+% match.
+% Output: final_grad - single image where the edges according to all the gradient
+% in input are enhanced.
+%
+% Author: Ali Alessio Salman
 
+% load and save if you want to speed up the computation on the same image
 % load rotate125.mat
 % load rotate45.mat
 % load xy.mat
 
-% figure(400)
-% imshow(uint8(r45));
-% title('gradient 45�')
 %%%%%%post-processing each gradient alone here%%%%%
 %median filtering
 % r45=medfilt2(r45,[3 3]);
@@ -23,7 +28,6 @@ thresh=8;
 r45(r45<thresh)=0;
 r125(r125<thresh)=0;
 gmax(gmax<thresh)=0;
-
 
 
 %r125 r45 gmax
@@ -46,6 +50,9 @@ tmp=max(grad45,grad125);
 final_grad=max(gmax,tmp);
 figure();
 imshow(uint8(final_grad)),title('Oriented Gradient');
+
+% uncomment if you wanna try some post-processing on the resulting gradient
+% before computing the watershed transform (see main.m)
 
 % %%%%final post-processing %%%%%
 % sgo_grad=sgolayfilt(final_grad,2,7);

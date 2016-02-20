@@ -1,4 +1,7 @@
 function cropped=cropMargins(im)
+% crop the margins of the input figure in a symmetric way.
+% Author: Ali Alessio Salman
+
 I1=im;
 sizeI = size(I1);
 zeros = floor((sizeI(2) -  min(sum(any(I1))))/2);

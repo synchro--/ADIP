@@ -25,6 +25,8 @@ orig_grad=grad;
 % imshow(uint8(imorig))
 % title('Original Image')
 
+save lol.mat
+
 %%
 tic
 %Thresholding 

@@ -2,7 +2,11 @@
 % 1. computes the normal histogram
 % 2. computes the oriented histograms
 % 3. merges the 3 gradients
-% 4. plot
+% 4. plot the gradient of oriented histograms
+% 5. compute the watershed transform of this HOG
+% 6. plot the segmented image.
+%
+% Author: Ali Alessio Salman
 
 clc
 clear all

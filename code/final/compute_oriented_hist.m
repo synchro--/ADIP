@@ -1,12 +1,12 @@
 function final_grad=compute_oriented_hist(img_name,orientation)
-
-% Code implementing basic idea of the Arbelaez's algorithm
-
-% Authors: Ali Alessio Salman, Mar�a Silos
-
-% clc
-% clear all
-% close all
+%%%Computes the oriented gradient of histogram. 
+%  Input: img_name    - the name of the image without the path
+%         orientation - degree of orientation 
+%  Output: final_grad - the computed gradient
+%  
+%  See also "compute_norm_histogram".
+% 
+%%% Authors: Ali Alessio Salman, Marìa Silos
 
 DEBUG=0;
 ROTATE=1;
