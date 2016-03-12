@@ -9,4 +9,6 @@ The goals are:
 
 <h3>Results</h3>
 
-We succesfully managed to achieve both tasks. Soon a report will be added to the repo with an intro to the topics and the actual ideas behind our solution. 
+We succesfully managed to achieve both tasks. See "Final Report" to get an intro to the topics of this research and the presentation of our work and the idea behind the actual implementation of the algorithm, following the Arbelaez paper. 
+
+Soon more documentation will be added.
