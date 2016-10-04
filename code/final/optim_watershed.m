@@ -155,39 +155,3 @@ white1(dam>0)=0;
 imshow(white1)
 title('Segmented Image')
 toc
-
-
-
-% im = max(max(im))-im;           % We will work with a negative image
-                                % so cells are dark (minima)
-
-%   Get some useful parameters of the image
-% imin = min(min(grad));
-% imax = max(max(grad));
-% [imheight, imwidth] = size(grad);
-% 
-% raws=size(grad,1);
-% cols=size(grad,2);
-% %   Initializes the catchment basins
-% CB  = bwlabel(grad < imin+1);   % C[min+1] = T[min+1]
-
-% Stablishing a neighbourhood of 20 pixels in which there will only be one
-% seed 
-% J=integralImage(CB);
-% for r=10:raws-10
-%     for c=10:cols-10
-%         if CB(r,c)>0,
-%             [sR sC eR eC] = deal(r-9,c-9,r+10,c+10);
-%             regionSum = J(eR+1,eC+1) - J(eR+1,sC) - J(sR,eC+1) + J(sR,sC);
-%             if regionSum~=CB(r,c)
-%                 for i=-9:1:10
-%                     for j=-9:1:10
-%                         if CB(r+i,c+j)>0
-%                             CB(r+i,c+j)=0;
-%                         end
-%                     end
-%                 end
-%             end
-%         end
-%     end
-% end
