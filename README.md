@@ -9,6 +9,7 @@ The goals are:
 
 <h3>Results</h3>
 
-We succesfully managed to achieve both tasks. See "Final Report" to get an intro to the topics of this research and the presentation of our work and the idea behind the actual implementation of the algorithm, following the Arbelaez paper. 
+We succesfully managed to achieve both tasks. See "Final Report" to get an intro to the topics of this research and the presentation of our work and the idea behind the actual implementation of the algorithm, following the Arbelaez paper. Input images can be found in the input folder and the corresponding results in the output one. 
+
 
 Soon more documentation will be added.
