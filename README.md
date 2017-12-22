@@ -15,11 +15,11 @@ The idea behind the actual implementation of the algorithm is based on the paper
 ### Gradient of Histogram  
 #### Influence of scale in gradients' magnitudes 
 Big scales images give rise to fine contours in contrast with the coarse contours acquired in the smaller scale image.
-![](res3.png)
+![](images/res3.png)
 
 #### Influence of θ in gradients’ magnitudes
 Using one single orientation (θ=0°,90°,45°,125°) is not enough to acquire contour quality, but the combination of all give rise to an efficient contour detector.
 ![](res2.png)
 
 ### Watershed Segmentation 
-![](res1.png)
+![](images/res1.png)
