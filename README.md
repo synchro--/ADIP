@@ -19,7 +19,7 @@ Big scales images give rise to fine contours in contrast with the coarse contour
 
 #### Influence of θ in gradients’ magnitudes
 Using one single orientation (θ=0°,90°,45°,125°) is not enough to acquire contour quality, but the combination of all give rise to an efficient contour detector.
-![](res2.png)
+![](images/res2.png)
 
 ### Watershed Segmentation 
 ![](images/res1.png)
