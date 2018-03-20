@@ -2,15 +2,22 @@
 This is a project about digital image processing, with particular regard to image segmentation. 
 
 The goals are: 
-<ul>
-<li>Implement an efficient approach to estimate the oriented gradient of histograms. </li>
-<li>Utilize the local minimum of the latter as a seed for a morphological watershed segmentation</li>
-</ul>
+
+- Implement an efficient approach to estimate the oriented gradient of histograms. </li>
+- Utilize the local minimum of the latter as a seed for a morphological watershed segmentation
+
+This repository implements the work described in: <br> 
+
+> **Contour Detection and Hierarchical Image Segmentation** <br>
+> **P. Arbelaez, M. Maire, C. Fowlkes and J. Malik.**
+> IEEE TPAMI, Vol. 33, No. 5, pp. 898-916, May 2011
+> http://www.eecs.berkeley.edu/Research/Projects/CS/vision/grouping/papers/amfm_pami2010.pdf
+
 
 ### Results
 
-We successfully managed to achieve both tasks. See "Final Report" to get an intro to the topics of this research and the presentation of our work. 
-The idea behind the actual implementation of the algorithm is based on the paper from Arbelaez. The former is in the docs folder together with some other useful document and our presentations. 
+We successfully managed to achieve both tasks. See "Final Report" to get an intro to the topics of this research and an overview of our work. 
+The `docs` folder contains our presentation at a student conference inside Delft University of Technology. 
 
 ### Gradient of Histogram  
 #### Influence of scale in gradients' magnitudes 
